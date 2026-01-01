@@ -212,8 +212,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
         </Link>
 
         <section className="grid gap-6 lg:grid-cols-2">
-          <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-r from-white via-white to-indigo-50 p-4 shadow-lg shadow-indigo-100 ring-1 ring-indigo-100">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(99,102,241,0.16),transparent_35%),radial-gradient(circle_at_85%_80%,rgba(56,189,248,0.12),transparent_42%)]" />
+          <div className="relative rounded-2xl border border-slate-200 bg-gradient-to-r bg-white p-4 shadow-lg shadow-indigo-100 ring-1 ring-indigo-100">
             <div className="relative flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-indigo-500/15 px-2 py-0.5 text-[18px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
