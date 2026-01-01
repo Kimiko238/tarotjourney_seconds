@@ -69,7 +69,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
   const [currentCards, setCurrentCards] = useState<Card[]>([]);
   const [history, setHistory] = useState<Card[][]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
-  const [promptText, setPromptText] = useState( "");
+  const [promptText, setPromptText] = useState("");
   const [copied, setCopied] = useState(false);
   const [worryText, setWorryText] = useState("");
   const [shouldShuffle, setShouldShuffle] = useState(true);
@@ -389,7 +389,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
               step 3
             </span>
             <h2 className="text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
-              プロンプトを作ってコピー、aiツールに貼り付けて
+              プロンプトを作ってコピー、aiツールに貼り付けましょう。
             </h2>
           </div>
           <div className="mt-4 grid gap-4 lg:grid-cols-[2fr,1fr]">
@@ -400,13 +400,14 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                     Prompt maker
                   </p>
                   <p className="text-base font-semibold text-slate-900">
-                    プロンプトを作ってコピー
+                    カードを引いたら、下のボタンを押してプロンプトを作りましょう。
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <button
                     onClick={handleCopyPrompt}
-                    className="rounded-full border border-emerald-300/50 bg-emerald-400/80 px-3 py-1 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-300"
+                    disabled={!promptText.trim()}
+                    className="rounded-full border border-emerald-300/50 bg-emerald-400/80 px-3 py-1 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-emerald-700 disabled:text-emerald-100 disabled:shadow-none"
                   >
                     {copied ? "コピー済み" : "コピー"}
                   </button>
