@@ -11,7 +11,6 @@ export type SpreadConfig = {
   description: string;
   cardCount: number;
   layout: "one-card" | "celtic-cross";
-  defaultPrompt: string;
   buildPrompt: (args: SpreadPromptArgs) => string;
 };
 
@@ -36,8 +35,6 @@ export const spreads: SpreadConfig[] = [
     description: "シンプルに1枚だけ引くスプレッド",
     cardCount: 1,
     layout: "one-card",
-    defaultPrompt:
-      "タロットを1枚引いてください。カード名と正位置/逆位置を返し、結果の一言メッセージを短く日本語で教えてください。",
     buildPrompt: ({ concern, cardResults }) =>
       buildDetailedPrompt(concern, cardResults),
   },
@@ -47,8 +44,6 @@ export const spreads: SpreadConfig[] = [
     description: "10枚の配置で深掘りするスプレッド",
     cardCount: 10,
     layout: "celtic-cross",
-    defaultPrompt:
-      "ケルト十字で10枚引いてください。以下のポジションの意味に沿って読み取り、日本語で要点をまとめてください。",
     buildPrompt: ({ concern, cardResults }) =>
       buildDetailedPrompt(concern, cardResults),
   },

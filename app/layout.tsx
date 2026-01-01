@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -10,6 +10,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const notoSerifJp = Noto_Serif_JP({
+  variable: "--font-noto-serif-jp",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -23,9 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" data-theme="light" className="bg-[#e7ecff]">
+    <html lang="ja" className="bg-[#e7ecff]">
+      <head>
+        <meta name="darkreader-lock" content="true" />
+        <link rel="icon" href="/logo/icon.png" type="image/png" sizes="any" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#e7ecff] text-slate-900`}
+        className={`${geistSans.variable} ${geistMono.variable} ${notoSerifJp.variable} antialiased bg-[#e7ecff] text-slate-900`}
       >
         {children}
       </body>

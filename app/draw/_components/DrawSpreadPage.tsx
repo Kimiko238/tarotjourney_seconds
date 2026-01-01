@@ -69,7 +69,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
   const [currentCards, setCurrentCards] = useState<Card[]>([]);
   const [history, setHistory] = useState<Card[][]>([]);
   const [isShuffling, setIsShuffling] = useState(false);
-  const [promptText, setPromptText] = useState(spread?.defaultPrompt ?? "");
+  const [promptText, setPromptText] = useState( "");
   const [copied, setCopied] = useState(false);
   const [worryText, setWorryText] = useState("");
   const [shouldShuffle, setShouldShuffle] = useState(true);
@@ -259,7 +259,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                   カードを引きましょう
                 </h2>
                 <p className="mt-2 text-sm text-slate-600">
-                  カード裏面がふわりと動く簡易シャッフル演出です。ボタンを押すとアニメが止まり、カードが選ばれます。
+                  ボタンを押すとアニメが止まり、カードが選ばれます。
                 </p>
               </div>
               <button
@@ -385,8 +385,8 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-indigo-100">
-          <div className="flex items-center gap-2">
-            <span className="rounded-full bg-indigo-500/15 px-2 py-0.5 text-[18px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
+          <div className="flex flex-col gap-2">
+            <span className="w-fit rounded-full bg-indigo-500/15 px-2 py-0.5 text-[18px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
               step 3
             </span>
             <h2 className="text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
@@ -425,7 +425,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                 value={promptText}
                 onChange={(e) => setPromptText(e.target.value)}
                 className="min-h-[170px] w-full resize-none rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-900 outline-none ring-0 transition focus:border-indigo-300/60 focus:ring-2 focus:ring-indigo-300/20"
-                placeholder="ここにプロンプトを自由に書いてください"
+                placeholder="まだプロンプトは作られていません。"
               />
             </div>
           </div>
