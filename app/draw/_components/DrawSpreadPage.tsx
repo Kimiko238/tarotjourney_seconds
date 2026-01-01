@@ -226,7 +226,6 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
               <h2 className="mt-2 text-2xl font-semibold text-slate-900 sm:text-3xl">
                 カードに聞きたい事を書きましょう
               </h2>
-              <p className="text-sm text-slate-600">{spread.description}</p>
               <div className="relative mt-3 flex flex-col gap-2">
                 <label className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700">
                   悩みを入力

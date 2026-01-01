@@ -8,7 +8,6 @@ export type SpreadPromptArgs = {
 export type SpreadConfig = {
   id: string;
   name: string;
-  description: string;
   cardCount: number;
   layout: "one-card" | "celtic-cross";
   buildPrompt: (args: SpreadPromptArgs) => string;
@@ -32,7 +31,6 @@ export const spreads: SpreadConfig[] = [
   {
     id: "one-card",
     name: "1枚引き",
-    description: "シンプルに1枚だけ引くスプレッド",
     cardCount: 1,
     layout: "one-card",
     buildPrompt: ({ concern, cardResults }) =>
@@ -41,7 +39,6 @@ export const spreads: SpreadConfig[] = [
   {
     id: "celtic-cross",
     name: "ケルト十字",
-    description: "10枚の配置で深掘りするスプレッド",
     cardCount: 10,
     layout: "celtic-cross",
     buildPrompt: ({ concern, cardResults }) =>
