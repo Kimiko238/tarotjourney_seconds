@@ -302,7 +302,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                         value={choiceAText}
                         onChange={(e) => setChoiceAText(e.target.value)}
                         placeholder="例: 転職する"
-                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 shadow-lg shadow-indigo-100 outline-none transition placeholder:text-slate-400 focus:border-indigo-300/70 focus:ring-2 focus:ring-indigo-300/30"
+                        className="mt-2 w-full h-20 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 shadow-lg shadow-indigo-100 outline-none transition placeholder:text-slate-400 focus:border-indigo-300/70 focus:ring-2 focus:ring-indigo-300/30"
                       />
                     </div>
                     <div>
@@ -313,7 +313,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                         value={choiceBText}
                         onChange={(e) => setChoiceBText(e.target.value)}
                         placeholder="例: 今の職場に残る"
-                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 shadow-lg shadow-indigo-100 outline-none transition placeholder:text-slate-400 focus:border-indigo-300/70 focus:ring-2 focus:ring-indigo-300/30"
+                        className="mt-2 w-full h-20 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 shadow-lg shadow-indigo-100 outline-none transition placeholder:text-slate-400 focus:border-indigo-300/70 focus:ring-2 focus:ring-indigo-300/30"
                       />
                     </div>
                   </div>
