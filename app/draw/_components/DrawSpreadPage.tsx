@@ -10,6 +10,7 @@ import { formatCardResult, getSpreadById } from "@/app/draw/_data/spreads";
 import {
   CelticCrossLayout,
   OneCardLayout,
+  TwoChoiceLayout,
 } from "@/app/draw/_components/spread-layouts";
 
 const floatingCards = Array.from({ length: 10 }, (_, i) => i);
@@ -60,6 +61,29 @@ const celticCrossPositions = [
   },
 ];
 
+const twoChoicePositions = [
+  {
+    title: "質問者の現状",
+    description: "質問者が今どのような状況に置かれているか",
+  },
+  {
+    title: "Aの現状",
+    description: "選択肢Aを選んだ場合の現状",
+  },
+  {
+    title: "Bの現状",
+    description: "選択肢Bを選んだ場合の現状",
+  },
+  {
+    title: "Aの未来",
+    description: "選択肢Aを選んだ場合の未来",
+  },
+  {
+    title: "Bの未来",
+    description: "選択肢Bを選んだ場合の未来",
+  },
+];
+
 type DrawSpreadPageProps = {
   spreadId: string;
 };
@@ -72,6 +96,8 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
   const [promptText, setPromptText] = useState("");
   const [copied, setCopied] = useState(false);
   const [worryText, setWorryText] = useState("");
+  const [choiceAText, setChoiceAText] = useState("");
+  const [choiceBText, setChoiceBText] = useState("");
   const [shouldShuffle, setShouldShuffle] = useState(true);
   const [isSettling, setIsSettling] = useState(false);
   const [stopAngles, setStopAngles] = useState<string[]>(() =>
@@ -114,10 +140,29 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
 
   const buildFortunePrompt = () => {
     if (!spread) return;
-    const concern = worryText.trim() || "（悩みを入力してください）";
+    const concern =
+      spread.id === "two-choice"
+        ? `悩み：${
+            worryText.trim() || "（悩みを入力してください）"
+          }\n選択肢A：${
+            choiceAText.trim() || "（選択肢Aを入力してください）"
+          }\n選択肢B：${choiceBText.trim() || "（選択肢Bを入力してください）"}`
+        : worryText.trim() || "（悩みを入力してください）";
     const cardResults = currentCards.length
       ? spread.id === "celtic-cross"
         ? celticCrossPositions
+            .map((position, index) => {
+              const card = currentCards[index];
+              const cardLabel = card
+                ? formatCardResult(card)
+                : "カード結果がまだありません";
+              return `${index + 1}. ${position.title}: ${
+                position.description
+              }\n引いたカード：${cardLabel}`;
+            })
+            .join("\n\n")
+        : spread.id === "two-choice"
+        ? twoChoicePositions
             .map((position, index) => {
               const card = currentCards[index];
               const cardLabel = card
@@ -198,7 +243,11 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
   }
 
   const Layout =
-    spread.layout === "celtic-cross" ? CelticCrossLayout : OneCardLayout;
+    spread.layout === "celtic-cross"
+      ? CelticCrossLayout
+      : spread.layout === "two-choice"
+      ? TwoChoiceLayout
+      : OneCardLayout;
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-200 via-indigo-100 to-sky-200 text-slate-900">
@@ -219,25 +268,56 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                   step 1
                 </span>
                 <p className="text-xs uppercase tracking-[0.25em] text-indigo-700">
-                  悩みや聞きたい事を入力してください
+                  Enter your concern
                 </p>
               </div>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900 sm:text-3xl">
                 カードに聞きたい事を書きましょう
               </h2>
-              <div className="relative mt-3 flex flex-col gap-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700">
-                  悩みを入力
-                </label>
+              <div className="relative mt-3 flex flex-col gap-4">
                 <div className="relative flex-1">
                   <div className="pointer-events-none absolute inset-y-1 left-2 w-1 rounded-full bg-gradient-to-b from-indigo-400/70 via-violet-300/40 to-transparent" />
                   <textarea
                     value={worryText}
                     onChange={(e) => setWorryText(e.target.value)}
-                    placeholder="例: 人間関係で悩んでいます"
-                    className="min-h-[400px] w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 pl-6 text-sm text-slate-900 shadow-lg shadow-indigo-100 outline-none transition placeholder:text-slate-400 focus:border-indigo-300/70 focus:ring-2 focus:ring-indigo-300/30"
+                    placeholder={
+                      spread.id === "two-choice"
+                        ? "例: どちらに進むべきか迷っています"
+                        : "例: 人間関係で悩んでいます"
+                    }
+                    className={`w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 pl-6 text-sm text-slate-900 shadow-lg shadow-indigo-100 outline-none transition placeholder:text-slate-400 focus:border-indigo-300/70 focus:ring-2 focus:ring-indigo-300/30 ${
+                      spread.id === "two-choice"
+                        ? "min-h-[350px]"
+                        : "min-h-[500px]"
+                    }`}
                   />
                 </div>
+                {spread.id === "two-choice" ? (
+                  <div className="grid gap-3">
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700">
+                        選択肢A
+                      </label>
+                      <input
+                        value={choiceAText}
+                        onChange={(e) => setChoiceAText(e.target.value)}
+                        placeholder="例: 転職する"
+                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 shadow-lg shadow-indigo-100 outline-none transition placeholder:text-slate-400 focus:border-indigo-300/70 focus:ring-2 focus:ring-indigo-300/30"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700">
+                        選択肢B
+                      </label>
+                      <input
+                        value={choiceBText}
+                        onChange={(e) => setChoiceBText(e.target.value)}
+                        placeholder="例: 今の職場に残る"
+                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 shadow-lg shadow-indigo-100 outline-none transition placeholder:text-slate-400 focus:border-indigo-300/70 focus:ring-2 focus:ring-indigo-300/30"
+                      />
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -364,6 +444,9 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                         spread.id === "celtic-cross"
                           ? celticCrossPositions[index]?.title ??
                             `カード${index + 1}`
+                          : spread.id === "two-choice"
+                          ? twoChoicePositions[index]?.title ??
+                            `カード${index + 1}`
                           : `${index + 1}枚目`;
                       return (
                         <li key={`${card.id}-${index}`}>
@@ -383,14 +466,18 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-indigo-100">
-          <div className="flex flex-col gap-2">
-            <span className="w-fit rounded-full bg-indigo-500/15 px-2 py-0.5 text-[18px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
+          <div className="flex items-center gap-2">
+            <span className="rounded-full bg-indigo-500/15 px-2 py-0.5 text-[18px] font-semibold uppercase tracking-[0.24em] text-indigo-700">
               step 3
             </span>
-            <h2 className="text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
-              プロンプトを作ってコピー、aiツールに貼り付けましょう。
-            </h2>
+            <p className="text-xs uppercase tracking-[0.25em] text-indigo-700">
+              Generate prompt
+            </p>
           </div>
+          <h2 className="mt-2 text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
+            プロンプトを作ってコピー、aiツールに貼り付けましょう。
+          </h2>
+
           <div className="mt-4 grid gap-4 lg:grid-cols-[2fr,1fr]">
             <div className="flex h-full flex-col gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-900 shadow-inner shadow-indigo-100">
               <div className="flex items-center justify-between">

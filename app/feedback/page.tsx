@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 
 type FeedbackFormState = {
@@ -60,6 +61,12 @@ export default function FeedbackPage() {
   return (
     <main className="relative min-h-screen bg-gradient-to-b from-[#fad74d] via-[#ffe083] to-[#fff4c4] px-6 py-12 text-slate-900">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
+        <Link
+          href="/"
+          className="inline-flex w-fit items-center justify-center rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-800 shadow-md shadow-stone-400 transition hover:-translate-y-0.5"
+        >
+          ← 前のページへ戻る
+        </Link>
         <header className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-md shadow-stone-400 backdrop-blur">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-700">
             お気軽にお書きください

@@ -20,7 +20,7 @@ function CardSlot({ card, width, height, rotation = 0 }: CardSlotProps) {
         className="flex items-center justify-center rounded-xl border border-slate-200 bg-white/90 text-xs text-slate-500 shadow-[0_10px_24px_rgba(0,0,0,0.14)]"
         style={{ width, height }}
       >
-        未ドロー
+        ここに表示されます
       </div>
     );
   }
@@ -51,6 +51,36 @@ export function OneCardLayout({ cards }: SpreadLayoutProps) {
   );
 }
 
+export function TwoChoiceLayout({ cards }: SpreadLayoutProps) {
+  const CARD_WIDTH = 120;
+  const CARD_HEIGHT = 190;
+  const positions = [
+    { x: "50%", y: "72%" },
+    { x: "34%", y: "52%" },
+    { x: "66%", y: "52%" },
+    { x: "18%", y: "20%" },
+    { x: "81%", y: "20%" },
+  ];
+
+  return (
+    <div className="relative h-[600px] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+      {positions.map((pos, index) => (
+        <div
+          key={index}
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          style={{ left: pos.x, top: pos.y }}
+        >
+          <CardSlot
+            card={cards[index]}
+            width={CARD_WIDTH}
+            height={CARD_HEIGHT}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function CelticCrossLayout({ cards }: SpreadLayoutProps) {
   const CARD_WIDTH = 140;
   const CARD_HEIGHT = 140;
@@ -62,13 +92,13 @@ export function CelticCrossLayout({ cards }: SpreadLayoutProps) {
     { x: "16%", y: "50%", rotation: 0 },
     { x: "60%", y: "50%", rotation: 0 },
     { x: "82%", y: "87%", rotation: 0 },
-    { x: "82%", y: "63%", rotation: 0 },
-    { x: "82%", y: "38%", rotation: 0 },
-    { x: "82%", y: "13%", rotation: 0 },
+    { x: "82%", y: "62%", rotation: 0 },
+    { x: "82%", y: "39%", rotation: 0 },
+    { x: "82%", y: "15%", rotation: 0 },
   ];
 
   return (
-    <div className="relative h-[900px] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+    <div className="relative h-[1100px] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
       {positions.map((pos, index) => (
         <div
           key={index}

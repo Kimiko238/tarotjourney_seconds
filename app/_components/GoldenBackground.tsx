@@ -1,3 +1,7 @@
+ "use client";
+
+import { useEffect, useState } from "react";
+
 const SYNODIC_MONTH_DAYS = 29.53058867;
 const MOON_EPOCH_MS = Date.UTC(2000, 0, 6, 18, 14, 0);
 const MS_PER_DAY = 86_400_000;
@@ -12,8 +16,13 @@ const getMoonPhase = (timestampMs: number) => {
 };
 
 export default function GoldenBackground() {
-  const jstNowMs = Date.now() + 9 * MS_PER_HOUR;
-  const phase = getMoonPhase(jstNowMs);
+  const [phase, setPhase] = useState(0);
+
+  useEffect(() => {
+    const jstNowMs = Date.now() + 9 * MS_PER_HOUR;
+    setPhase(getMoonPhase(jstNowMs));
+  }, []);
+
   const phaseAngle = 2 * Math.PI * phase;
   const radius = 34;
   const distance = radius * (1 - Math.cos(phaseAngle));

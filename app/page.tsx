@@ -25,6 +25,15 @@ const spreads: Spread[] = [
     accent: "from-indigo-500/20 via-indigo-400/10 to-sky-300/20",
   },
   {
+    id: "two-choice",
+    name: "二者択一",
+    cards: 5,
+    subtitle: "2つの選択肢があり、比較して結論を出す",
+    description:
+      "2つの選択肢で迷っている時。\n選んだ際の流れを見比べたい時。",
+    accent: "from-violet-500/20 via-indigo-400/10 to-sky-400/15",
+  },
+  {
     id: "celtic-cross",
     name: "ケルト十字",
     cards: 10,
@@ -61,7 +70,8 @@ export default function Home() {
         </header>
         <p className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,1)] leading-relaxed">
           ようこそ！ここは、無料でタロット占いを体験できる場所です。。
-          <br />タロットを学んでいる方も、占いを受けたい方も、お気軽にご利用ください。
+          <br />
+          タロットを学んでいる方も、占いを受けたい方も、お気軽にご利用ください。
         </p>
         <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {spreads.map((spread) => {
@@ -114,6 +124,13 @@ export default function Home() {
                       className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-indigo-200"
                     >
                       ケルト十字で引く →
+                    </Link>
+                  ) : spread.id === "two-choice" ? (
+                    <Link
+                      href="/draw/two-choice"
+                      className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-indigo-200"
+                    >
+                      二者択一で引く →
                     </Link>
                   ) : null}
                 </div>

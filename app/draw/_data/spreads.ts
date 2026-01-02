@@ -9,7 +9,7 @@ export type SpreadConfig = {
   id: string;
   name: string;
   cardCount: number;
-  layout: "one-card" | "celtic-cross";
+  layout: "one-card" | "two-choice" | "celtic-cross";
   buildPrompt: (args: SpreadPromptArgs) => string;
 };
 
@@ -27,6 +27,23 @@ const buildDetailedPrompt = (concern: string, cardResults: string) => `あなた
 5. 抽象的な励ましや曖昧な表現で終わらせないこと。
 `;
 
+const buildTwoChoicePrompt = (concern: string, cardResults: string) => `あなたは現実的で判断力のある優秀な占い師です。
+「${concern}」という悩みに対して、
+二者択一のリーディングとして以下のカード結果が出ています。
+
+${cardResults}
+
+以下のルールに従ってリーディングしてください。
+
+【出力ルール】
+1. 質問者の現状を具体的に述べる。
+2. 選択肢Aの現状と未来を具体的に述べる。
+3. 選択肢Bの現状と未来を具体的に述べる。
+4. 両者を比較し、どちらが現実的に良いかを判断する。
+5. 最後に、今取るべき結論を1文で明確に書く。
+6. 抽象的な励ましや曖昧な表現で終わらせないこと。
+`;
+
 export const spreads: SpreadConfig[] = [
   {
     id: "one-card",
@@ -35,6 +52,14 @@ export const spreads: SpreadConfig[] = [
     layout: "one-card",
     buildPrompt: ({ concern, cardResults }) =>
       buildDetailedPrompt(concern, cardResults),
+  },
+  {
+    id: "two-choice",
+    name: "二者択一",
+    cardCount: 5,
+    layout: "two-choice",
+    buildPrompt: ({ concern, cardResults }) =>
+      buildTwoChoicePrompt(concern, cardResults),
   },
   {
     id: "celtic-cross",
@@ -48,6 +73,7 @@ export const spreads: SpreadConfig[] = [
 
 export function normalizeSpreadId(id: string) {
   if (id === "one") return "one-card";
+  if (id === "two") return "two-choice";
   if (id === "celtic") return "celtic-cross";
   return id;
 }
