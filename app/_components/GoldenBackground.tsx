@@ -1,6 +1,6 @@
- "use client";
+"use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 
 const SYNODIC_MONTH_DAYS = 29.53058867;
 const MOON_EPOCH_MS = Date.UTC(2000, 0, 6, 18, 14, 0);
@@ -49,7 +49,13 @@ export default function GoldenBackground() {
         aria-hidden="true"
       >
         <defs>
-          <filter id="crescent-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <filter
+            id="crescent-glow"
+            x="-60%"
+            y="-60%"
+            width="220%"
+            height="220%"
+          >
             <feGaussianBlur stdDeviation="2.2" result="soft" />
             <feGaussianBlur stdDeviation="5.0" result="glow" />
             <feMerge>
@@ -96,7 +102,7 @@ export default function GoldenBackground() {
             animationDuration: "3s",
             "--shoot-x": "-300px",
             "--shoot-y": "173px",
-          } as React.CSSProperties
+          } as CSSProperties
         }
       />
       <div
@@ -107,7 +113,7 @@ export default function GoldenBackground() {
             animationDuration: "2.8s",
             "--shoot-x": "-260px",
             "--shoot-y": "125px",
-          } as React.CSSProperties
+          } as CSSProperties
         }
       />
       <div
@@ -118,7 +124,7 @@ export default function GoldenBackground() {
             animationDuration: "3.2s",
             "--shoot-x": "-320px",
             "--shoot-y": "200px",
-          } as React.CSSProperties
+          } as CSSProperties
         }
       />
       <div
@@ -129,7 +135,7 @@ export default function GoldenBackground() {
             animationDuration: "3.2s",
             "--shoot-x": "-300px",
             "--shoot-y": "195px",
-          } as React.CSSProperties
+          } as CSSProperties
         }
       />
       <div
@@ -151,7 +157,7 @@ export default function GoldenBackground() {
             animationDuration: "2.8s",
             "--shoot-x": "-310px",
             "--shoot-y": "186px",
-          } as React.CSSProperties
+          } as CSSProperties
         }
       />
     </div>
