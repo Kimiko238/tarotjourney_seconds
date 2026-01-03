@@ -21,6 +21,27 @@ const notoSerifJp = Noto_Serif_JP({
 export const metadata: Metadata = {
   title: "Tarot Journey",
   description: "Follow a guided tarot pull and journal what the cards reveal.",
+  metadataBase: process.env.NEXT_PUBLIC_SITE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
+    : undefined,
+  openGraph: {
+    title: "Tarot Journey",
+    description: "Follow a guided tarot pull and journal what the cards reveal.",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Tarot Journey",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tarot Journey",
+    description: "Follow a guided tarot pull and journal what the cards reveal.",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({

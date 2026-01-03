@@ -166,12 +166,14 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <Link
-          href="/feedback"
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSfD3Hb4jSfLNoCoUkyKZi9-cDs2M0k02QRvI6yKdbaMrVXr1g/viewform?usp=dialog"
+          target="_blank"
+          rel="noreferrer"
           className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200  px-4 py-2 text-sm font-semibold text-zinc-200 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-white hover:shadow-indigo-200"
         >
           ご意見やバグ報告はこちらから
-        </Link>
+        </a>
       </div>
     </main>
   );
