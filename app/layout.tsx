@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono, Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 
@@ -59,6 +60,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${notoSerifJp.variable} antialiased bg-[#e7ecff] text-slate-900`}
       >
         {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-1TLR66CNNX"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-1TLR66CNNX');`}
+        </Script>
       </body>
     </html>
   );

@@ -44,7 +44,7 @@ export default function GoldenBackground() {
       <div className="twinkle-slow absolute left-[72%] top-[40%] h-1 w-1 rounded-full bg-white/80 shadow-[0_0_6px_rgba(255,255,255,0.7)]" />
       <div className="twinkle-mid absolute left-[20%] top-[23%] h-1 w-1 rounded-full bg-white/85 shadow-[0_0_6px_rgba(255,255,255,0.75)]" />
       <svg
-        className="absolute left-15 top-10 h-24 w-24 opacity-95 drop-shadow-[0_0_18px_rgba(255,230,150,0.95)]"
+        className="absolute left-[75%] top-[2%] h-24 w-24 opacity-95 drop-shadow-[0_0_18px_rgba(255,230,150,0.95)] lg:left-[70%] lg:top-[5%]"
         viewBox="0 0 100 100"
         aria-hidden="true"
       >

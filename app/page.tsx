@@ -29,8 +29,7 @@ const spreads: Spread[] = [
     name: "二者択一",
     cards: 5,
     subtitle: "2つの選択肢があり、比較して結論を出す",
-    description:
-      "2つの選択肢で迷っている時。\n選んだ際の流れを見比べたい時。",
+    description: "2つの選択肢で迷っている時。\n選んだ際の流れを見比べたい時。",
     accent: "from-violet-500/20 via-indigo-400/10 to-sky-400/15",
   },
   {
@@ -114,21 +113,21 @@ export default function Home() {
                   {spread.id === "one-card" ? (
                     <Link
                       href="/draw/one-card"
-                      className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-indigo-200"
+                      className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 bg-white/80 px-4 py-8 text-sm font-semibold text-indigo-700 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-indigo-200 active:translate-y-0.5 active:scale-[0.98] active:bg-white/60 active:shadow-inner lg:py-2"
                     >
                       1枚引きで引く →
                     </Link>
                   ) : spread.id === "celtic-cross" ? (
                     <Link
                       href="/draw/celtic-cross"
-                      className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-indigo-200"
+                      className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 bg-white/80 px-4 py-8 text-sm font-semibold text-indigo-700 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-indigo-200 active:translate-y-0.5 active:scale-[0.98] active:bg-white/60 active:shadow-inner lg:py-2"
                     >
                       ケルト十字で引く →
                     </Link>
                   ) : spread.id === "two-choice" ? (
                     <Link
                       href="/draw/two-choice"
-                      className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-indigo-200"
+                      className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 bg-white/80 px-4 py-8 text-sm font-semibold text-indigo-700 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-indigo-200 active:translate-y-0.5 active:scale-[0.98] active:bg-white/60 active:shadow-inner lg:py-2"
                     >
                       二者択一で引く →
                     </Link>
@@ -170,7 +169,7 @@ export default function Home() {
           href="https://docs.google.com/forms/d/e/1FAIpQLSfD3Hb4jSfLNoCoUkyKZi9-cDs2M0k02QRvI6yKdbaMrVXr1g/viewform?usp=dialog"
           target="_blank"
           rel="noreferrer"
-          className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200  px-4 py-2 text-sm font-semibold text-zinc-200 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-white hover:shadow-indigo-200"
+          className="mt-auto inline-flex items-center justify-center rounded-full border border-indigo-200 px-4 py-8 lg:py-2 text-sm font-semibold text-zinc-200 shadow-sm shadow-indigo-100 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:text-white hover:shadow-indigo-200 active:translate-y-0.5 active:scale-[0.98] active:bg-white/10 active:shadow-inner lg:py-2"
         >
           ご意見やバグ報告はこちらから
         </a>

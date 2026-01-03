@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 
 import type { Card } from "@/app/lib/cards";
 import { drawMany } from "@/app/lib/cards";
@@ -14,8 +14,6 @@ import {
 } from "@/app/draw/_components/spread-layouts";
 
 const floatingCards = Array.from({ length: 10 }, (_, i) => i);
-const SHUFFLE_CARD_WIDTH = 180;
-const SHUFFLE_CARD_HEIGHT = 288;
 const SETTLE_DURATION = 1400;
 const DRAW_DELAY = 500;
 const celticCrossPositions = [
@@ -100,21 +98,32 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
   const [choiceBText, setChoiceBText] = useState("");
   const [shouldShuffle, setShouldShuffle] = useState(true);
   const [isSettling, setIsSettling] = useState(false);
+  const [isCompactShuffle, setIsCompactShuffle] = useState(false);
   const [stopAngles, setStopAngles] = useState<string[]>(() =>
     floatingCards.map(() => "0deg")
   );
   const [hasDrawn, setHasDrawn] = useState(false);
   const mountTimeRef = useRef<number>(performance.now());
 
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 640px)");
+    const update = () => setIsCompactShuffle(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
   const floatingCardStyles = useMemo(() => {
+    const radiusMultiplier = isCompactShuffle ? 0.6 : 1;
+    const liftMultiplier = isCompactShuffle ? 0.6 : 1;
     return floatingCards.map((_, idx) => {
       const dir = idx % 2 === 0 ? 1 : -1;
-      const radius = 60 + (idx % 5) * 18;
+      const radius = (60 + (idx % 5) * 18) * radiusMultiplier;
       const orbitDuration = 1.8 * (0.7 + (idx % 4) * 0.1);
       const tiltDuration = 0.65 * (0.7 + (idx % 3) * 0.08);
       const delay = idx * 0.08;
       const scale = 0.88 + (idx % 4) * 0.03;
-      const lift = (idx % 3) * 6 - 6;
+      const lift = ((idx % 3) * 6 - 6) * liftMultiplier;
       const tiltBase = (idx % 7) * 2 - 6; // base angle offset per card
       const pileX = (idx % 4) * 6 - 9; // small horizontal fan-out
       const pileY = Math.floor(idx / 4) * -5; // slight upward stacking
@@ -136,7 +145,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
         pileScale,
       };
     });
-  }, []);
+  }, [isCompactShuffle]);
 
   const buildFortunePrompt = () => {
     if (!spread) return;
@@ -233,7 +242,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
           </p>
           <Link
             href="/"
-            className="mt-4 inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800"
+            className="mt-4 inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition active:translate-y-0.5 active:scale-[0.98] active:bg-white/60 active:shadow-inner"
           >
             ← スプレッド一覧に戻る
           </Link>
@@ -255,7 +264,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
       <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-12 lg:px-10">
         <Link
           href="/"
-          className="inline-flex w-fit items-center justify-center rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-800 shadow-md shadow-indigo-100 transition hover:-translate-y-0.5 hover:shadow-indigo-200"
+          className="inline-flex w-fit items-center justify-center rounded-full border border-slate-200 bg-white/80 px-4 py-8 text-sm font-semibold text-slate-800 shadow-md shadow-indigo-100 transition hover:-translate-y-0.5 hover:shadow-indigo-200 active:translate-y-0.5 active:scale-[0.98] active:bg-white/60 active:shadow-inner lg:py-2"
         >
           ← スプレッド一覧に戻る
         </Link>
@@ -349,7 +358,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
               </button>
             </div>
 
-            <div className="relative mt-2 h-[520px] overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-indigo-100">
+            <div className="relative mt-2 md:h-[600px] h-[500px] overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-indigo-100">
               <div className="absolute inset-0">
                 {floatingCards.map((_, index) => {
                   const cardStyle = floatingCardStyles[index];
@@ -389,28 +398,30 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                         } as CSSProperties
                       }
                     >
-                      <Image
-                        src="/back_side.png"
-                        alt="card back"
-                        width={SHUFFLE_CARD_WIDTH}
-                        height={SHUFFLE_CARD_HEIGHT}
-                        priority
-                        className="rounded-[14px] border border-slate-200 bg-white drop-shadow-[0_8px_5px_rgba(0,0,0,0.14)]"
-                        style={
-                          {
-                            animation: shouldShuffle
-                              ? `tilt ${cardStyle.tiltDuration}s ease-in-out ${cardStyle.delay}s infinite`
-                              : isSettling
-                              ? `tilt ${
-                                  cardStyle.tiltDuration * 1.6
-                                }s ease-in-out ${cardStyle.delay}s forwards`
-                              : undefined,
-                            "--tilt-base": `${cardStyle.tiltBase}deg`,
-                            transition:
-                              "transform 1.1s cubic-bezier(0.22, 1, 0.36, 1)",
-                          } as CSSProperties
-                        }
-                      />
+                      <div className="relative h-[170px] w-[106px] sm:h-[240px] sm:w-[150px] md:h-[256px] md:w-[160px] lg:h-[268px] lg:w-[168px] xl:h-[288px] xl:w-[180px]">
+                        <Image
+                          src="/back_side.png"
+                          alt="card back"
+                          fill
+                          sizes="(min-width: 1280px) 180px, (min-width: 1024px) 168px, (min-width: 768px) 160px, (min-width: 640px) 150px, 120px"
+                          priority
+                          className="rounded-[14px] border border-slate-200 bg-white drop-shadow-[0_8px_5px_rgba(0,0,0,0.14)]"
+                          style={
+                            {
+                              animation: shouldShuffle
+                                ? `tilt ${cardStyle.tiltDuration}s ease-in-out ${cardStyle.delay}s infinite`
+                                : isSettling
+                                ? `tilt ${
+                                    cardStyle.tiltDuration * 1.6
+                                  }s ease-in-out ${cardStyle.delay}s forwards`
+                                : undefined,
+                              "--tilt-base": `${cardStyle.tiltBase}deg`,
+                              transition:
+                                "transform 1.1s cubic-bezier(0.22, 1, 0.36, 1)",
+                            } as CSSProperties
+                          }
+                        />
+                      </div>
                     </div>
                   );
                 })}
@@ -438,7 +449,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
               </p>
               {currentCards.length ? (
                 <>
-                  <ul className="space-y-1 text-lg font-semibold">
+                  <ul className="space-y-1 text-sm font-semibold sm:text-lg">
                     {currentCards.map((card, index) => {
                       const title =
                         spread.id === "celtic-cross"
@@ -493,7 +504,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
                   <button
                     onClick={handleCopyPrompt}
                     disabled={!promptText.trim()}
-                    className="rounded-full border border-emerald-300/50 bg-emerald-400/80 px-3 py-1 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-emerald-700 disabled:text-emerald-100 disabled:shadow-none"
+                  className="shrink-0 whitespace-nowrap rounded-full border border-emerald-300/50 bg-emerald-400/80 px-5 py-5 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-300 active:translate-y-0.5 active:scale-[0.98] active:bg-emerald-500 active:shadow-inner disabled:cursor-not-allowed disabled:bg-emerald-700 disabled:text-emerald-100 disabled:shadow-none lg:px-3 lg:py-1"
                   >
                     {copied ? "コピー済み" : "コピー"}
                   </button>
@@ -502,7 +513,7 @@ export default function DrawSpreadPage({ spreadId }: DrawSpreadPageProps) {
               <div className="space-y-2">
                 <button
                   onClick={buildFortunePrompt}
-                  className="w-full rounded-lg border border-emerald-200 bg-emerald-400 px-3 py-2 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-300"
+                  className="w-full rounded-lg border border-emerald-200 bg-emerald-400 px-3 py-5 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-300 active:translate-y-0.5 active:scale-[0.98] active:bg-emerald-500 active:shadow-inner lg:py-2"
                 >
                   悩み + カード結果で占い師プロンプトを作る
                 </button>
